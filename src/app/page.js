@@ -3,11 +3,14 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div
-      className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center"
-      style={{ backgroundImage: 'url("/images/robot.webp")' }}
+      className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat bg-left-bottom "
+      style={{
+        backgroundImage: 'url("/images/robot.webp")',
+        backgroundSize: "800px"
+      }}
     >
       {/* Navigation */}
-      <nav className="absolute top-0 left-0 right-0 px-6 py-4 flex justify-between items-center bg-gradient-to-r from-purple-500 to-blue-500">
+      <nav className="absolute top-0 left-0 right-0 px-6 py-4 flex justify-between items-center backdrop-blur-lg bg-transparent">
         <div>
           <h1 className="text-white text-2xl font-bold">AI Buddy</h1>
         </div>
