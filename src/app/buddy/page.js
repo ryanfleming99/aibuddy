@@ -7,6 +7,46 @@ export default function Home() {
   const [response, setResponse] = useState("");
   const [error, setError] = useState(null); // New state to store errors
   const [speech, setSpeech] = useState("");
+  const [isPaused, setIsPaused] = useState(false);
+  const [utterance, setUtterance] = useState(null);
+
+  useEffect(() => {
+    const synth = window.speechSynthesis;
+    const u = new SpeechSynthesisUtterance(response);
+
+    setUtterance(u);
+
+    return () => {
+      synth.cancel();
+    };
+  }, [response]);
+
+  const handlePlay = () => {
+    const synth = window.speechSynthesis;
+    if (isPaused) {
+      synth.resume();
+    }
+
+    synth.speak(utterance);
+
+    setIsPaused(false);
+  };
+
+  const handlePause = () => {
+    const synth = window.speechSynthesis;
+
+    synth.pause();
+
+    setIsPaused(true);
+  };
+
+  const handleStop = () => {
+    const synth = window.speechSynthesis;
+
+    synth.cancel();
+
+    setIsPaused(false);
+  };
 
   const handleSpeechSearch = () => {
     const SpeechRecognition =
@@ -22,27 +62,28 @@ export default function Home() {
     recognition.interimResults = false;
     recognition.start();
 
-    recognition.onresult = function (event) {
+    recognition.onresult = function(event) {
       const last = event.results.length - 1;
       const command = event.results[last][0].transcript;
       setSpeech(command);
+      handleSubmit(command);
       console.log(speech);
     };
-    recognition.onspeechend = function () {
+    recognition.onspeechend = function() {
       recognition.stop();
     };
   };
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  async function handleSubmit(command) {
+    /* e.preventDefault(); */
 
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify({ message: userInput }),
+        body: JSON.stringify({ message: command })
       });
 
       if (!res.ok) {
@@ -51,6 +92,7 @@ export default function Home() {
 
       const data = await res.json();
       setResponse(data.choices[0].message.content);
+      handlePlay();
       setError(null); // Reset error state if request succeeds
     } catch (error) {
       console.error("Failed to fetch the chat response:", error);
@@ -64,7 +106,7 @@ export default function Home() {
         <input
           type="text"
           value={speech}
-          onChange={(e) => setUserInput(e.target.value)}
+          onChange={e => setSpeech(e.target.value)}
           placeholder="Say something..."
           className="border text-black border-gray-300 rounded px-4 py-2 mr-2 focus:outline-none focus:border-blue-500"
         />
@@ -81,6 +123,9 @@ export default function Home() {
       >
         Voice search
       </button>
+      <button onClick={handlePlay}>{isPaused ? "Resume" : "Play"}</button>
+      <button onClick={handlePause}>Pause</button>
+      <button onClick={handleStop}>Stop</button>
       {error && <p className="text-red-500">Error: {error.message}</p>}{" "}
       {/* Display error message if error state is set */}
       {response && <p className="text-green-500">{response}</p>}
