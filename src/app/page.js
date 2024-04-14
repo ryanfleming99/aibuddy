@@ -6,7 +6,7 @@ export default function Home() {
       className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat bg-left-bottom "
       style={{
         backgroundImage: 'url("/images/robot.webp")',
-        backgroundSize: "800px"
+        backgroundSize: "800px",
       }}
     >
       {/* Navigation */}
