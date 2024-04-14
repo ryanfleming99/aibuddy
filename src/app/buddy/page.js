@@ -92,7 +92,6 @@ export default function Home() {
 
       const data = await res.json();
       setResponse(data.choices[0].message.content);
-      handlePlay();
       setError(null); // Reset error state if request succeeds
     } catch (error) {
       console.error("Failed to fetch the chat response:", error);
