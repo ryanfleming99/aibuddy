@@ -3,10 +3,10 @@ import Link from "next/link";
 export default function Home() {
   return (
     <div
-      className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat bg-left-bottom "
+      className="min-h-screen flex flex-col justify-center items-center bg-cover bg-center bg-no-repeat bg-left-bottom bg-black "
       style={{
         backgroundImage: 'url("/images/robot.webp")',
-        backgroundSize: "800px",
+        backgroundSize: "800px"
       }}
     >
       {/* Navigation */}

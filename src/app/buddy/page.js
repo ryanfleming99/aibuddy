@@ -1,6 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { random } from "nanoid";
 
 export default function Home() {
   const [userInput, setUserInput] = useState("");
@@ -9,8 +10,9 @@ export default function Home() {
   const [speech, setSpeech] = useState("");
   const [isPaused, setIsPaused] = useState(false);
   const [utterance, setUtterance] = useState(null);
+  const inputRef = useRef(null);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const synth = window.speechSynthesis;
     const u = new SpeechSynthesisUtterance(response);
 
@@ -19,6 +21,13 @@ export default function Home() {
     return () => {
       synth.cancel();
     };
+  }, [response]); */
+
+  useEffect(() => {
+    if (response) {
+      const utterance = new SpeechSynthesisUtterance(response);
+      window.speechSynthesis.speak(utterance);
+    }
   }, [response]);
 
   const handlePlay = () => {
@@ -92,6 +101,11 @@ export default function Home() {
 
       const data = await res.json();
       setResponse(data.choices[0].message.content);
+      /* if (response) {
+        const utterance = new SpeechSynthesisUtterance(response);
+        window.speechSynthesis.speak(utterance);
+        handlePlay();
+      } */
       setError(null); // Reset error state if request succeeds
     } catch (error) {
       console.error("Failed to fetch the chat response:", error);
@@ -122,7 +136,9 @@ export default function Home() {
       >
         Voice search
       </button>
-      <button onClick={handlePlay}>{isPaused ? "Resume" : "Play"}</button>
+      <button ref={inputRef} className="playButton" onClick={handlePlay}>
+        {isPaused ? "Resume" : "Play"}
+      </button>
       <button onClick={handlePause}>Pause</button>
       <button onClick={handleStop}>Stop</button>
       {error && <p className="text-red-500">Error: {error.message}</p>}{" "}
