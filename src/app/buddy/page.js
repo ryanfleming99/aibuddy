@@ -114,37 +114,47 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <form onSubmit={handleSubmit} className="mb-4">
+    <div className="flex flex-col items-center justify-center min-h-screen px-4">
+      <div className="w-full h-48 flex items-center justify-center">
+        {error && <p className="text-red-500 mt-4">Error: {error.message}</p>}{" "}
+        {/* Display error message if error state is set */}
+        <div className="w-full md:w-1/4 bg-transparent rounded-lg flex justify-center">
+          {response && (
+            <p className="text-white text-wrap break-normal">{response}</p>
+          )}
+        </div>
+      </div>
+      <form onSubmit={handleSubmit} className="mb-4 w-full md:w-auto m-10">
         <input
           type="text"
           value={speech}
           onChange={e => setSpeech(e.target.value)}
           placeholder="Say something..."
-          className="border text-black border-gray-300 rounded px-4 py-2 mr-2 focus:outline-none focus:border-blue-500"
+          className="border border-gray-300 rounded px-4 py-2 mr-2 focus:outline-none focus:border-blue-500 w-full md:w-auto"
         />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
-        >
-          Send
-        </button>
       </form>
       <button
+        type="submit"
+        className="w-1/4 m-3 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+      >
+        Send
+      </button>
+      <button
         onClick={handleSpeechSearch}
-        className="m-3 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+        className="w-1/4 m-3  text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
       >
         Voice search
       </button>
-      <button ref={inputRef} className="playButton" onClick={handlePlay}>
-        {isPaused ? "Resume" : "Play"}
-      </button>
-      <button onClick={handlePause}>Pause</button>
-      <button onClick={handleStop}>Stop</button>
-      {error && <p className="text-red-500">Error: {error.message}</p>}{" "}
-      {/* Display error message if error state is set */}
-      {response && <p className="text-green-500">{response}</p>}
-      <Link href="/" className="text-blue-500 hover:underline">
+      <div className="flex ">
+        <button ref={inputRef} className="playButton mr-2" onClick={handlePlay}>
+          {isPaused ? "Resume" : "Play"}
+        </button>
+        <button onClick={handlePause} className="mr-2">
+          Pause
+        </button>
+        <button onClick={handleStop}>Stop</button>
+      </div>
+      <Link href="/" className="text-blue-500 hover:underline mt-4">
         Back to Home
       </Link>
     </div>
