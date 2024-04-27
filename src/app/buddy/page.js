@@ -2,6 +2,12 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { random } from "nanoid";
+import { useUser } from "@clerk/clerk-react";
+
+const HeaderSignedIn = () => {
+  const { userId } = useUser();
+  console.log(userId);
+};
 
 export default function Home() {
   const [userInput, setUserInput] = useState("");

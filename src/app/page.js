@@ -35,6 +35,16 @@ export default function Home() {
               <a className="text-white hover:text-gray-200">Contact</a>
             </Link>
           </li>
+          <li>
+            <Link href="/sign-up" legacyBehavior>
+              <a className="text-white hover:text-gray-200">Sign Up</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/sign-in" legacyBehavior>
+              <a className="text-white hover:text-gray-200">Sign In</a>
+            </Link>
+          </li>
         </ul>
       </nav>
 

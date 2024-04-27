@@ -9,7 +9,7 @@ export default async function handler(req, res) {
       const openaiResponse = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
-          model: "gpt-3.5-turbo", // Replace with the model you want to use
+          model: "gpt-4-0613", // Replace with the model you want to use
           messages: [{ role: "user", content: message }]
         },
         {
